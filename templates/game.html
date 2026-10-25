@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Play · Guess the Word{% endblock %}
+{% block content %}
+<section class="game-panel">
+  <h1>Guess the word</h1>
+  <p>Guess the 5-letter word in no more than 5 tries. Green means correct place, orange means the letter is elsewhere, and grey means it is not in the word.</p>
+  {% if current_game %}
+    <div class="board" aria-label="Your guesses">
+      {% for row in guesses %}
+        <div class="guess-row" aria-label="Guess {{ loop.index }}">
+          {% for letter in row.word %}
+            <span class="tile {{ row.feedback[loop.index0] }}">{{ letter }}</span>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    {% if finished %}
+      <div class="result card" role="status">
+        <h2>{{ result_message }}</h2>
+        <a class="button-link" href="{{ url_for('game') }}">OK</a>
+      </div>
+    {% else %}
+      <form method="post" action="{{ url_for('submit_guess', game_id=current_game.id) }}" class="guess-form">
+        <label for="guess">Guess {{ guesses|length + 1 }} of 5</label>
+        <div class="guess-input">
+          <input id="guess" name="guess" maxlength="5" minlength="5" pattern="[A-Z]{5}" title="Enter 5 uppercase letters" autocomplete="off" autocapitalize="characters" autofocus required>
+          <button type="submit">Submit guess</button>
+        </div>
+      </form>
+    {% endif %}
+  {% else %}
+    <div class="card start-card">
+      <p>You have <strong>{{ remaining_games }}</strong> of 3 games left today.</p>
+      {% if remaining_games %}
+        <form method="post" action="{{ url_for('start_game') }}"><button type="submit">Start a game</button></form>
+      {% else %}
+        <p class="subtle">Your daily games are used up. Come back tomorrow!</p>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

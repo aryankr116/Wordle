@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Guess the Word{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}">Guess the Word</a>
+    {% if g.user %}
+      <nav>
+        <span>{{ g.user.username }}</span>
+        {% if g.user.role == 'admin' %}<a href="{{ url_for('admin') }}">Reports</a>{% endif %}
+        <form action="{{ url_for('logout') }}" method="post"><button class="text-button" type="submit">Log out</button></form>
+      </nav>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div class="notice {{ category }}" role="status">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

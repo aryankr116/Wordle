@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Daily report · Guess the Word{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Daily report</h1>
+  <form method="get" class="report-filter">
+    <label for="date">Day</label>
+    <input id="date" name="date" type="date" value="{{ selected_date }}" required>
+    <button type="submit">View report</button>
+  </form>
+  <div class="report-grid">
+    <div><strong>{{ report.users or 0 }}</strong><span>players who played</span></div>
+    <div><strong>{{ report.correct_guesses or 0 }}</strong><span>games won</span></div>
+  </div>
+  <a href="{{ url_for('admin') }}">Back to reports</a>
+</section>
+{% endblock %}

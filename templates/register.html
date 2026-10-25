@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Register · Guess the Word{% endblock %}
+{% block content %}
+<section class="card auth-card">
+  <h1>Create a player account</h1>
+  <p>Choose a username of at least 5 letters and a password with a letter, a number, and $, % or *.</p>
+  <form method="post" class="stack">
+    <label>Username<input name="username" minlength="5" pattern="[A-Za-z]{5,}" autocomplete="username" required></label>
+    <label>Password<input type="password" name="password" minlength="5" autocomplete="new-password" required></label>
+    <button type="submit">Register</button>
+  </form>
+  <p class="subtle">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</section>
+{% endblock %}
